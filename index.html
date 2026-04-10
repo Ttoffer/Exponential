@@ -307,68 +307,63 @@
       <strong>Irrational:</strong> <span class="math">e</span> cannot be written as a fraction <span class="math">p/q</span> with integers <span class="math">p</span> and <span class="math">q</span>. Its decimal expansion never settles into a repeating block.
     </p>
     <p>
-      <strong>Transcendental:</strong> <span class="math">e</span> is not a root of any non-zero polynomial with <em>integer</em> coefficients. Numbers like <span class="math">√2</span> are irrational but still solve <span class="math">x² − 2 = 0</span>; <span class="math">e</span> cannot be captured that way. (Charles Hermite proved the transcendence of <span class="math">e</span> in 1873; Ferdinand von Lindemann later proved <span class="math">π</span> transcendental — which ties into <span class="math">e<sup>iπ</sup> = −1</span>.)
+      <strong>Transcendental:</strong> A <strong>polynomial</strong> in <span class="math">x</span> is a finite sum of whole-number powers of <span class="math">x</span> with fixed coefficients — for example <span class="math">5x³ − 2x + 7</span> or simply <span class="math">x² − 2</span>. (There is no division by <span class="math">x</span>, no infinite series, and no exponentials inside — just powers.) A number is a <strong>root</strong> of a polynomial if substituting it for <span class="math">x</span> makes the expression zero. The number <span class="math">e</span> is <strong>transcendental</strong>: it is <em>not</em> a root of any non-zero polynomial whose coefficients are all integers. By contrast, <span class="math">√2</span> is irrational but still satisfies <span class="math">x² − 2 = 0</span>, so it is <em>algebraic</em>, not transcendental. (Charles Hermite proved the transcendence of <span class="math">e</span> in 1873; Ferdinand von Lindemann later proved <span class="math">π</span> transcendental — which ties into <span class="math">e<sup>iπ</sup> = −1</span>.)
     </p>
 
     <h2>Exponentials and derivatives — the <span class="math">2<sup>x</sup></span>, <span class="math">3<sup>x</sup></span>, <span class="math">e<sup>x</sup></span> picture</h2>
     <p>
-      For any positive base <span class="math">a</span>, <span class="math">d/dx (a<sup>x</sup>) = ln(a)·a<sup>x</sup></span>. Here <span class="math">ln</span> is the natural logarithm (base <span class="math">e</span>). Since <span class="math">ln(2) &lt; 1</span> and <span class="math">ln(3) &gt; 1</span>, the derivative of <span class="math">2<sup>x</sup></span> is a <em>scaled-down</em> copy (below the original curve on a fixed vertical scale), while the derivative of <span class="math">3<sup>x</sup></span> sits <em>above</em>. Only when <span class="math">ln(a) = 1</span>, i.e. <span class="math">a = e</span>, does the derivative match the function: <span class="math">d/dx (e<sup>x</sup>) = e<sup>x</sup></span>.
+      Plot an exponential and its derivative on the same axes: the two curves are unmistakably <strong>the same shape</strong> — one is just a <strong>vertical stretch</strong> of the other. For <span class="math">2<sup>x</sup></span>, the derivative is a <em>gentle squeeze</em> downward: it hugs <strong>below</strong> the original graph. For <span class="math">3<sup>x</sup></span>, the derivative is a <em>gentle pull</em> upward: it rides <strong>above</strong>. So base 2 grows a bit “too slowly” relative to its slope, and base 3 a bit “too fast”. That invites a natural question: is there a <strong>Goldilocks</strong> base — a number <span class="math">a</span> for which <span class="math">a<sup>x</sup></span> and its derivative are <strong>exactly the same curve</strong>? There is, and only one: <strong class="math">e</strong>. Below, turn on the mint <span class="math">e<sup>x</sup></span> pair: the function and its derivative <strong>coincide</strong>, highlighted with a soft pulsing glow while either is selected.
     </p>
 
     <div class="card">
-      <h3 style="margin-top:0">Toggle curves (same scaling as our <a href="../ExponentialFunctions/index.html">ExponentialFunctions</a> page)</h3>
+      <h3 style="margin-top:0">Try it — toggle each pair</h3>
       <div class="graph-wrap">
         <canvas id="plotExp" class="plot" aria-label="Graph of exponentials and derivatives"></canvas>
       </div>
       <div class="check-grid" id="expControls"></div>
-      <p class="figure-label">Fixed vertical scale so turning curves on or off does not rescale the plot.</p>
     </div>
 
     <div class="card">
-      <h3 style="margin-top:0">How each derivative is calculated</h3>
+      <h3 style="margin-top:0">How each derivative is calculated (limit definition first)</h3>
       <div class="deriv-work">
         <p style="margin-top:0">
-          The same tool is used each time: <strong>logarithmic differentiation</strong>, plus the chain rule for <span class="math">ln y</span>. We assume you already accept <span class="math">d/dx (ln x) = 1/x</span> and the laws <span class="math">ln(u<sup>k</sup>) = k ln u</span> and <span class="math">ln(e) = 1</span>.
+          We start from the <strong>definition</strong> of the derivative — the limit of the difference quotient — then specialise to <span class="math">2<sup>x</sup></span>, <span class="math">3<sup>x</sup></span>, and <span class="math">e<sup>x</sup></span>. The number <span class="math">lim<sub>h→0</sub> (a<sup>h</sup> − 1) / h</span> turns out to depend only on the base <span class="math">a</span>; that number is what we call <span class="math">ln a</span> (natural logarithm of <span class="math">a</span>).
         </p>
 
-        <h4>1. Any positive base: <span class="math">y = a<sup>x</sup></span> (<span class="math">a &gt; 0</span>, <span class="math">a ≠ 1</span>)</h4>
+        <h4>1. Any positive base: <span class="math">f(x) = a<sup>x</sup></span> (<span class="math">a &gt; 0</span>, <span class="math">a ≠ 1</span>)</h4>
         <div class="deriv-block">
-          <p class="deriv-line">Write <span class="math">y = a<sup>x</sup></span>.</p>
-          <p class="deriv-line">Take the natural logarithm of both sides: &nbsp;<span class="math">ln y = ln(a<sup>x</sup>) = x ln a</span>.</p>
-          <p class="deriv-line">Differentiate with respect to <span class="math">x</span>. On the left, the chain rule gives <span class="math">d/dx (ln y) = (1/y) · dy/dx</span>. On the right, <span class="math">ln a</span> is constant, so <span class="math">d/dx (x ln a) = ln a</span>.</p>
-          <p class="deriv-line"><span class="math">(1/y) · dy/dx = ln a</span>.</p>
-          <p class="deriv-line">Multiply by <span class="math">y</span>: &nbsp;<span class="math">dy/dx = y ln a = a<sup>x</sup> ln a</span>.</p>
-          <p class="deriv-line deriv-line--rule"><strong>Rule:</strong> &nbsp;<span class="math">d/dx (a<sup>x</sup>) = (ln a) · a<sup>x</sup></span>.</p>
+          <p class="deriv-line"><span class="math">f′(x) = lim<sub>h→0</sub> (f(x + h) − f(x)) / h = lim<sub>h→0</sub> (a<sup>x+h</sup> − a<sup>x</sup>) / h</span>.</p>
+          <p class="deriv-line">Factor out <span class="math">a<sup>x</sup></span> (it does not depend on <span class="math">h</span>): &nbsp;<span class="math">= lim<sub>h→0</sub> a<sup>x</sup> (a<sup>h</sup> − 1) / h = a<sup>x</sup> · lim<sub>h→0</sub> (a<sup>h</sup> − 1) / h</span>.</p>
+          <p class="deriv-line">The second factor is a constant that depends only on <span class="math">a</span>. Write <span class="math">L(a) = lim<sub>h→0</sub> (a<sup>h</sup> − 1) / h</span>.</p>
+          <p class="deriv-line deriv-line--rule"><strong>So</strong> &nbsp;<span class="math">d/dx (a<sup>x</sup>) = L(a) · a<sup>x</sup></span>. In calculus we <em>name</em> this constant <span class="math">L(a) = ln a</span>.</p>
         </div>
-        <p class="deriv-note">So every exponential <span class="math">a<sup>x</sup></span> is “scaled” by the constant <span class="math">ln a</span>. That constant is the <em>instantaneous relative growth rate</em> at <span class="math">x = 0</span>, because <span class="math">(a<sup>x</sup>)′</span> at 0 is <span class="math">ln a</span>.</p>
+        <p class="deriv-note">Try tiny <span class="math">h</span> on a calculator: <span class="math">(2<sup>h</sup> − 1) / h</span> creeps toward ≈ 0.693, <span class="math">(3<sup>h</sup> − 1) / h</span> toward ≈ 1.099. Those values are <span class="math">ln 2</span> and <span class="math">ln 3</span>.</p>
 
-        <h4>2. <span class="math">y = 2<sup>x</sup></span></h4>
+        <h4>2. Derivative of <span class="math">2<sup>x</sup></span></h4>
         <div class="deriv-block">
-          <p class="deriv-line">Set <span class="math">a = 2</span> in the rule: &nbsp;<span class="math">d/dx (2<sup>x</sup>) = (ln 2) · 2<sup>x</sup></span>.</p>
-          <p class="deriv-line">Numerically <span class="math">ln 2 ≈ 0.693</span>, which is <strong>less than 1</strong>.</p>
-          <p class="deriv-line">So at every <span class="math">x</span>, the derivative is the function <span class="math">2<sup>x</sup></span> multiplied by about <span class="math">0.693</span> — a <strong>shorter</strong> graph than <span class="math">2<sup>x</sup></span> on the same axes (the cyan derivative lies <strong>below</strong> the blue curve).</p>
+          <p class="deriv-line">Put <span class="math">a = 2</span> in the formula: &nbsp;<span class="math">d/dx (2<sup>x</sup>) = 2<sup>x</sup> · lim<sub>h→0</sub> (2<sup>h</sup> − 1) / h</span>.</p>
+          <p class="deriv-line">That limit is <span class="math">ln 2 ≈ 0.693</span>, which is <strong>less than 1</strong>.</p>
+          <p class="deriv-line deriv-line--rule">Hence <span class="math">d/dx (2<sup>x</sup>) = (ln 2) · 2<sup>x</sup></span> — the graph of the derivative is <span class="math">2<sup>x</sup></span> scaled <em>down</em> vertically, so it sits <strong>below</strong> <span class="math">2<sup>x</sup></span> on the same axes.</p>
         </div>
 
-        <h4>3. <span class="math">y = 3<sup>x</sup></span></h4>
+        <h4>3. Derivative of <span class="math">3<sup>x</sup></span></h4>
         <div class="deriv-block">
-          <p class="deriv-line">Set <span class="math">a = 3</span>: &nbsp;<span class="math">d/dx (3<sup>x</sup>) = (ln 3) · 3<sup>x</sup></span>.</p>
-          <p class="deriv-line">Numerically <span class="math">ln 3 ≈ 1.099</span>, which is <strong>greater than 1</strong>.</p>
-          <p class="deriv-line">So the derivative is <span class="math">3<sup>x</sup></span> <strong>stretched</strong> vertically — the yellow derivative sits <strong>above</strong> the gold <span class="math">3<sup>x</sup></span> curve.</p>
+          <p class="deriv-line"><span class="math">d/dx (3<sup>x</sup>) = 3<sup>x</sup> · lim<sub>h→0</sub> (3<sup>h</sup> − 1) / h = (ln 3) · 3<sup>x</sup></span>.</p>
+          <p class="deriv-line">Here <span class="math">ln 3 ≈ 1.099</span> is <strong>greater than 1</strong>, so the derivative is a <em>vertical stretch</em> of <span class="math">3<sup>x</sup></span> — it lies <strong>above</strong> the original curve.</p>
         </div>
 
-        <h4>4. <span class="math">y = e<sup>x</sup></span></h4>
+        <h4>4. Derivative of <span class="math">e<sup>x</sup></span> — the special base</h4>
         <div class="deriv-block">
-          <p class="deriv-line">Again start from <span class="math">y = e<sup>x</sup></span>.</p>
-          <p class="deriv-line"><span class="math">ln y = ln(e<sup>x</sup>) = x ln e</span>.</p>
-          <p class="deriv-line">By definition of <span class="math">e</span>, <span class="math">ln e = 1</span>, so <span class="math">ln y = x</span>.</p>
-          <p class="deriv-line">Differentiate: <span class="math">(1/y) · dy/dx = 1</span> &nbsp;⇒&nbsp; <span class="math">dy/dx = y = e<sup>x</sup></span>.</p>
-          <p class="deriv-line deriv-line--rule"><strong>So</strong> &nbsp;<span class="math">d/dx (e<sup>x</sup>) = e<sup>x</sup></span> — the function and its derivative are the same. Equivalently, <span class="math">ln e = 1</span> is exactly the condition <span class="math">ln a = 1</span>, i.e. <span class="math">a = e</span>, in the general formula.</p>
+          <p class="deriv-line">The number <span class="math">e</span> is chosen (equivalently to your compound-interest limit) so that <span class="math">lim<sub>h→0</sub> (e<sup>h</sup> − 1) / h = 1</span>. In other words, <span class="math">L(e) = 1</span>, i.e. <span class="math">ln e = 1</span>.</p>
+          <p class="deriv-line">Then <span class="math">d/dx (e<sup>x</sup>) = e<sup>x</sup> · lim<sub>h→0</sub> (e<sup>h</sup> − 1) / h = e<sup>x</sup> · 1 = e<sup>x</sup></span>.</p>
+          <p class="deriv-line deriv-line--rule"><strong>So</strong> <span class="math">e<sup>x</sup></span> is the <em>unique</em> exponential whose derivative is the <strong>same</strong> function — no extra factor; the curve and its derivative coincide.</p>
         </div>
 
-        <h4>5. Same idea from the limit definition (optional)</h4>
+        <h4>Addendum: the same rules via logarithmic differentiation</h4>
         <div class="deriv-block">
-          <p class="deriv-line"><span class="math">d/dx (a<sup>x</sup>) = lim<sub>h→0</sub> (a<sup>x+h</sup> − a<sup>x</sup>) / h = a<sup>x</sup> · lim<sub>h→0</sub> (a<sup>h</sup> − 1) / h</span>.</p>
-          <p class="deriv-note" style="margin-top:0.5rem">The limit <span class="math">lim<sub>h→0</sub> (a<sup>h</sup> − 1) / h</span> is <em>defined</em> to be <span class="math">ln a</span> (natural log). That is the same factor <span class="math">ln a</span> as above, so the graph story and the algebra match.</p>
+          <p class="deriv-line">Let <span class="math">y = a<sup>x</sup></span>. Then <span class="math">ln y = x ln a</span>. Differentiate: <span class="math">(1/y) dy/dx = ln a</span>, so <span class="math">dy/dx = y ln a = (ln a) · a<sup>x</sup></span>.</p>
+          <p class="deriv-line">For <span class="math">a = 2</span> or <span class="math">3</span>, substitute. For <span class="math">a = e</span>, <span class="math">ln e = 1</span> gives <span class="math">dy/dx = e<sup>x</sup></span> immediately.</p>
+          <p class="deriv-note" style="margin-top:0.5rem">This is shorter once you trust <span class="math">d/dx (ln x) = 1/x</span> and the chain rule; the limit definition above shows <em>where</em> the factor <span class="math">ln a</span> comes from.</p>
         </div>
       </div>
     </div>
@@ -464,6 +459,7 @@
       var controls = document.getElementById("expControls");
       var state = {};
       series.forEach(function (s) { state[s.id] = false; });
+      var rafId = null;
 
       var pairs = [[series[0], series[1]], [series[2], series[3]], [series[4], series[5]]];
       pairs.forEach(function (pair) {
@@ -485,7 +481,15 @@
           controls.appendChild(lab);
           cb.addEventListener("change", function () {
             state[s.id] = cb.checked;
-            draw();
+            if (state.se || state.de) {
+              scheduleGlowLoop();
+            } else {
+              if (rafId != null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+              }
+              draw();
+            }
           });
         });
       });
@@ -493,6 +497,7 @@
       var xMin = -2;
       var xMax = 2.5;
       var padding = { l: 52, r: 18, t: 18, b: 42 };
+      var steps = 400;
 
       function computeFixedYMax() {
         var m = 0;
@@ -506,6 +511,19 @@
         return Math.min(Math.max(m * 1.06, 1), 80);
       }
       var fixedYMax = computeFixedYMax();
+
+      function scheduleGlowLoop() {
+        if (rafId != null) return;
+        function tick() {
+          draw();
+          if (state.se || state.de) {
+            rafId = requestAnimationFrame(tick);
+          } else {
+            rafId = null;
+          }
+        }
+        rafId = requestAnimationFrame(tick);
+      }
 
       function resize() {
         var wrap = canvas.parentElement;
@@ -527,12 +545,36 @@
         return padding.t + (1 - y / yMax) * plotH;
       }
 
+      function traceSeriesPath(s, yMax, plotW, plotH) {
+        ctx.beginPath();
+        var started = false;
+        for (var i = 0; i <= steps; i++) {
+          var x = xMin + (i / steps) * (xMax - xMin);
+          var y = s.fn(x);
+          if (!Number.isFinite(y) || y < -0.01 || y > yMax * 1.02) {
+            started = false;
+            continue;
+          }
+          var px = xToPx(x, plotW);
+          var py = yToPx(Math.max(0, y), yMax, plotH);
+          if (!started) {
+            ctx.moveTo(px, py);
+            started = true;
+          } else {
+            ctx.lineTo(px, py);
+          }
+        }
+        return started;
+      }
+
       function draw() {
         var w = canvas.clientWidth;
         var h = canvas.clientHeight;
         var plotW = w - padding.l - padding.r;
         var plotH = h - padding.t - padding.b;
         var yMax = fixedYMax;
+        var eActive = state.se || state.de;
+        var pulse = eActive ? 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(performance.now() / 420)) : 0;
 
         ctx.fillStyle = "#070b14";
         ctx.fillRect(0, 0, w, h);
@@ -574,33 +616,42 @@
         ctx.lineTo(x0, padding.t + plotH);
         ctx.stroke();
 
-        ctx.lineWidth = 2.25;
-        var steps = 400;
         var toDraw = series
           .filter(function (s) { return state[s.id]; })
           .sort(function (a, b) { return a.z - b.z; });
+
         toDraw.forEach(function (s) {
-          ctx.beginPath();
-          var started = false;
-          for (var i = 0; i <= steps; i++) {
-            var x = xMin + (i / steps) * (xMax - xMin);
-            var y = s.fn(x);
-            if (!Number.isFinite(y) || y < -0.01 || y > yMax * 1.02) {
-              started = false;
-              continue;
+          var isE = s.id === "se" || s.id === "de";
+          if (isE && eActive && pulse > 0) {
+            ctx.save();
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            var layers = [
+              { w: 14, a: 0.11 * pulse },
+              { w: 9, a: 0.2 * pulse },
+              { w: 5, a: 0.32 * pulse },
+            ];
+            for (var li = 0; li < layers.length; li++) {
+              if (traceSeriesPath(s, yMax, plotW, plotH)) {
+                ctx.strokeStyle = "rgba(52, 211, 153, " + layers[li].a + ")";
+                ctx.lineWidth = layers[li].w;
+                ctx.stroke();
+              }
             }
-            var px = xToPx(x, plotW);
-            var py = yToPx(Math.max(0, y), yMax, plotH);
-            if (!started) {
-              ctx.moveTo(px, py);
-              started = true;
-            } else {
-              ctx.lineTo(px, py);
-            }
+            ctx.restore();
           }
-          var rgb = s.color.match(/\d+/g).map(Number);
-          ctx.strokeStyle = "rgba(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + "," + s.alpha + ")";
-          ctx.stroke();
+          if (traceSeriesPath(s, yMax, plotW, plotH)) {
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.lineWidth = isE && eActive ? 2.5 + 0.6 * pulse : 2.25;
+            var rgb = s.color.match(/\d+/g).map(Number);
+            var alpha = s.alpha;
+            if (isE && eActive) {
+              alpha = Math.min(1, s.alpha + 0.22 * pulse);
+            }
+            ctx.strokeStyle = "rgba(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + "," + alpha + ")";
+            ctx.stroke();
+          }
         });
 
         ctx.fillStyle = "#94a3b8";

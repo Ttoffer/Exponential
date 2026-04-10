@@ -1,6 +1,6 @@
 # Maths — Exponential E (HTML)
 
-This folder contains a **single static web page**, `Index.html`, that explains the mathematical constant **e** and why it is so important in growth, logarithms, calculus, and complex numbers.
+This folder contains a **single static web page**, `index.html`, that explains the mathematical constant **e** and why it is so important in growth, logarithms, calculus, and complex numbers.
 
 The page is presented as a **CJF Hal AI** branded educational note with interactive graphics, a browser favicon, and an **Apple touch icon** for iPhone and iPad home-screen use.
 
@@ -25,7 +25,7 @@ The page is presented as a **CJF Hal AI** branded educational note with interact
 
 ## How to view
 
-Open `Index.html` in any modern web browser, or publish the folder on **GitHub Pages** and open the site URL.
+Open `index.html` in any modern web browser, or publish the folder on **GitHub Pages** and open the site URL.
 
 **iPhone / iPad:** In Safari, tap **Share → Add to Home Screen**. The file `apple-touch-icon.png` is included as a **180 × 180** Apple home-screen icon, and the mobile web app title is set to **Euler e**.
 
@@ -33,7 +33,7 @@ Open `Index.html` in any modern web browser, or publish the folder on **GitHub P
 
 | File | Purpose |
 |------|---------|
-| `Index.html` | Main educational page about **e** |
+| `index.html` | Main educational page about **e** |
 | `README.md` | Project summary and usage notes |
 | `header-logo.svg` | CJF Hal AI header logo used on the page |
 | `favicon.svg` | Browser tab icon |
@@ -42,6 +42,7 @@ Open `Index.html` in any modern web browser, or publish the folder on **GitHub P
 
 ## Notes
 
+- The entry file **must** be named **`index.html`** with a **lowercase** `i`. On case-sensitive web servers (typical for **GitHub Pages** and many Linux hosts), `Index.html` is a different path and may not be used as the folder’s default document.
 - No build step is required to use the page.
 - The page is entirely client-side HTML, CSS, SVG, canvas, and JavaScript.
 - The content is intended as a clear visual explanation rather than a full formal treatment.
