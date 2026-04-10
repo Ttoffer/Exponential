@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="apple-mobile-web-app-title" content="Euler e" />
+  <title>e — the exponential constant | CJF Hal AI</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2e;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --mint: #34d399;
+      --gold: #fbbf24;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(ellipse 120% 80% at 50% -25%, #1e3a5f 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 1.25rem 1.15rem 3rem; }
+    .page-brand {
+      margin-bottom: 1.5rem;
+    }
+    .page-brand-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.75rem, 3vw, 1.5rem);
+      flex-wrap: wrap;
+    }
+    .brand-logo {
+      max-width: min(260px, 78vw);
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 6px 32px rgba(0, 0, 0, 0.45);
+    }
+    .brand-icon-apple {
+      width: clamp(56px, 15vw, 76px);
+      height: auto;
+      display: block;
+      border-radius: 18px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+      flex-shrink: 0;
+    }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: clamp(1.5rem, 4.5vw, 2rem);
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin: 0 0 1.75rem;
+      font-size: 1.02rem;
+    }
+    h2 {
+      margin: 2rem 0 0.65rem;
+      font-size: 1.2rem;
+      font-weight: 650;
+      color: #7dd3fc;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+      padding-bottom: 0.35rem;
+    }
+    h3 { margin: 1.25rem 0 0.5rem; font-size: 1.05rem; color: #cbd5e1; }
+    p { margin: 0.65rem 0; }
+    a { color: var(--accent); }
+    a:hover { color: #7dd3fc; }
+    .card {
+      background: var(--panel);
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      padding: 1rem 1.1rem 1.2rem;
+      margin: 1rem 0;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+    }
+    .math {
+      font-family: "Cambria Math", "STIX Two Math", "Times New Roman", Times, serif;
+      font-size: 1.05em;
+    }
+    .callout {
+      margin: 1rem 0;
+      padding: 0.85rem 1rem;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .callout strong { color: #a5f3fc; }
+    .figure-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    .graph-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      min-height: 260px;
+    }
+    canvas.plot {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: #070b14;
+    }
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+      margin-top: 0.85rem;
+    }
+    .controls-row label { font-size: 0.88rem; color: var(--muted); }
+    input[type="range"] { width: min(100%, 320px); accent-color: var(--accent); }
+    .slider-readout {
+      font-family: ui-monospace, monospace;
+      font-size: 0.85rem;
+      color: var(--mint);
+    }
+    .check-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin-top: 0.75rem;
+    }
+    .check-grid label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .check-grid input { accent-color: var(--accent); }
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .sibling-link {
+      margin-top: 2rem;
+      padding: 1rem;
+      border-radius: 12px;
+      background: rgba(52, 211, 153, 0.06);
+      border: 1px solid rgba(52, 211, 153, 0.2);
+      font-size: 0.95rem;
+    }
+    ul { margin: 0.5rem 0 0.5rem 1.25rem; color: var(--muted); }
+    li { margin: 0.35rem 0; }
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .btn-step {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      background: rgba(56, 189, 248, 0.14);
+      color: #e0f2fe;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-step:hover {
+      background: rgba(56, 189, 248, 0.26);
+      border-color: #38bdf8;
+    }
+    .btn-step:focus-visible {
+      outline: 2px solid #7dd3fc;
+      outline-offset: 2px;
+    }
+    .btn-step--muted {
+      border-color: rgba(148, 163, 184, 0.35);
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text);
+    }
+    .btn-step--muted:hover {
+      background: rgba(148, 163, 184, 0.18);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+    .euler-controls {
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .deriv-work {
+      margin-top: 0;
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+    .deriv-work h4 {
+      margin: 1.15rem 0 0.45rem;
+      font-size: 1rem;
+      font-weight: 650;
+      color: #cbd5e1;
+    }
+    .deriv-work h4:first-of-type { margin-top: 0.35rem; }
+    .deriv-block {
+      margin: 0.5rem 0 0.85rem;
+      padding: 0.65rem 0.85rem;
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+    }
+    .deriv-line {
+      margin: 0.35rem 0;
+      font-family: "Cambria Math", "STIX Two Math", "Times New Roman", Times, serif;
+      font-size: 1.02em;
+    }
+    .deriv-line--rule {
+      margin-top: 0.65rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      color: #a5f3fc;
+    }
+    .deriv-note {
+      margin: 0.45rem 0 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="page-brand">
+      <div class="page-brand-inner">
+        <!-- PNG lives beside Fusion page when present; SVG fallback ships with this folder -->
+        <img
+          src="../../Science/Fusion/cjf-hal-ai-logo-futuristic.png"
+          alt="CJF Hal AI"
+          class="brand-logo"
+          width="260"
+          height="88"
+          decoding="async"
+          onerror="this.onerror=null;this.src='header-logo.svg';"
+        />
+        <img src="apple-touch-icon.png" alt="" width="180" height="180" class="brand-icon-apple" decoding="async" />
+      </div>
+    </header>
+
+    <h1>The number <span class="math">e</span> — nature’s favourite growth</h1>
+    <p class="subtitle">Compound interest, calculus, and a bridge to complex numbers — why 2.71828… feels almost magical.</p>
+
+    <p>
+      In school we meet <span class="math">π</span> first. Then, quietly, another constant appears: <strong class="math">e</strong> ≈ 2.718281828459045…
+      It is the heartbeat of smooth growth, of logarithms, and of how rates of change mirror the thing being measured. Once you see it, it keeps turning up — population models, cooling coffee, probability, and the spiral of compound interest.
+    </p>
+
+    <h2>Leonhard Euler (1707–1783)</h2>
+    <p>
+      Swiss mathematician <strong>Leonhard Euler</strong> (often spelled “Leonard” in English, but his name is Leonhard) was one of the most prolific minds in the history of mathematics. He shaped notation we still use, connected exponentials with trigonometry through complex numbers, and studied the constant that now bears his name. His work helped turn <span class="math">e</span> from a computational curiosity into a central pillar of analysis.
+    </p>
+
+    <h2>From <span class="math">(1 + 1/n)<sup>n</sup></span> to <span class="math">e</span></h2>
+    <p>
+      A famous definition is a limit as the integer <span class="math">n</span> grows (often described as taking <em>many</em> tiny steps — so the step size <span class="math">1/n</span> is small):
+    </p>
+    <p class="callout">
+      <span class="math"><strong>e</strong> = lim<sub>n→∞</sub> (1 + 1/n)<sup>n</sup></span>.
+    </p>
+    <p>
+      It is easy to misread this as “<span class="math">n</span> very small”; what matters is <strong>many compounding periods</strong> (large <span class="math">n</span>), so each period adds a tiny proportional slice. As <span class="math">n</span> increases, the value climbs and settles toward <span class="math">e</span>.
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Interactive: watch the limit approach <span class="math">e</span></h3>
+      <p style="margin-top:0;font-size:0.92rem;color:var(--muted)">Drag <span class="math">n</span> (number of periods per year). Compare <span class="math">(1+1/n)<sup>n</sup></span> to <span class="math">e</span>.</p>
+      <div class="controls-row">
+        <label for="nSlider"><span class="math">n</span> =</label>
+        <input type="range" id="nSlider" min="1" max="200000" value="12" step="1" />
+        <span class="slider-readout" id="nReadout"></span>
+      </div>
+      <p class="slider-readout" id="limitReadout" style="margin-top:0.5rem"></p>
+    </div>
+
+    <h2>£1 at 100% interest — compounded “all the time”</h2>
+    <p>
+      Imagine £1 invested at <strong>100% annual</strong> interest. If interest is paid once at year’s end, you have £2. If it is paid twice (50% each half-year), you end with <span class="math">(1 + ½)² = £2.25</span>. Twelve times a month-style compounding: <span class="math">(1 + 1/12)<sup>12</sup> ≈ £2.613</span>.
+    </p>
+    <p>
+      Let <span class="math">n</span> be the number of equal periods in the year, each at rate <span class="math">1/n</span>. The balance is <span class="math">(1 + 1/n)<sup>n</sup></span>. As <span class="math">n</span> → ∞ — compounding in finer and finer increments — the amount approaches <strong>£e ≈ £2.71828…</strong>, not infinity. Continuous compounding is the mathematical idealisation of that limit.
+    </p>
+
+    <h2>Irrational and transcendental</h2>
+    <p>
+      <strong>Irrational:</strong> <span class="math">e</span> cannot be written as a fraction <span class="math">p/q</span> with integers <span class="math">p</span> and <span class="math">q</span>. Its decimal expansion never settles into a repeating block.
+    </p>
+    <p>
+      <strong>Transcendental:</strong> <span class="math">e</span> is not a root of any non-zero polynomial with <em>integer</em> coefficients. Numbers like <span class="math">√2</span> are irrational but still solve <span class="math">x² − 2 = 0</span>; <span class="math">e</span> cannot be captured that way. (Charles Hermite proved the transcendence of <span class="math">e</span> in 1873; Ferdinand von Lindemann later proved <span class="math">π</span> transcendental — which ties into <span class="math">e<sup>iπ</sup> = −1</span>.)
+    </p>
+
+    <h2>Exponentials and derivatives — the <span class="math">2<sup>x</sup></span>, <span class="math">3<sup>x</sup></span>, <span class="math">e<sup>x</sup></span> picture</h2>
+    <p>
+      For any positive base <span class="math">a</span>, <span class="math">d/dx (a<sup>x</sup>) = ln(a)·a<sup>x</sup></span>. Here <span class="math">ln</span> is the natural logarithm (base <span class="math">e</span>). Since <span class="math">ln(2) &lt; 1</span> and <span class="math">ln(3) &gt; 1</span>, the derivative of <span class="math">2<sup>x</sup></span> is a <em>scaled-down</em> copy (below the original curve on a fixed vertical scale), while the derivative of <span class="math">3<sup>x</sup></span> sits <em>above</em>. Only when <span class="math">ln(a) = 1</span>, i.e. <span class="math">a = e</span>, does the derivative match the function: <span class="math">d/dx (e<sup>x</sup>) = e<sup>x</sup></span>.
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Toggle curves (same scaling as our <a href="../ExponentialFunctions/index.html">ExponentialFunctions</a> page)</h3>
+      <div class="graph-wrap">
+        <canvas id="plotExp" class="plot" aria-label="Graph of exponentials and derivatives"></canvas>
+      </div>
+      <div class="check-grid" id="expControls"></div>
+      <p class="figure-label">Fixed vertical scale so turning curves on or off does not rescale the plot.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">How each derivative is calculated</h3>
+      <div class="deriv-work">
+        <p style="margin-top:0">
+          The same tool is used each time: <strong>logarithmic differentiation</strong>, plus the chain rule for <span class="math">ln y</span>. We assume you already accept <span class="math">d/dx (ln x) = 1/x</span> and the laws <span class="math">ln(u<sup>k</sup>) = k ln u</span> and <span class="math">ln(e) = 1</span>.
+        </p>
+
+        <h4>1. Any positive base: <span class="math">y = a<sup>x</sup></span> (<span class="math">a &gt; 0</span>, <span class="math">a ≠ 1</span>)</h4>
+        <div class="deriv-block">
+          <p class="deriv-line">Write <span class="math">y = a<sup>x</sup></span>.</p>
+          <p class="deriv-line">Take the natural logarithm of both sides: &nbsp;<span class="math">ln y = ln(a<sup>x</sup>) = x ln a</span>.</p>
+          <p class="deriv-line">Differentiate with respect to <span class="math">x</span>. On the left, the chain rule gives <span class="math">d/dx (ln y) = (1/y) · dy/dx</span>. On the right, <span class="math">ln a</span> is constant, so <span class="math">d/dx (x ln a) = ln a</span>.</p>
+          <p class="deriv-line"><span class="math">(1/y) · dy/dx = ln a</span>.</p>
+          <p class="deriv-line">Multiply by <span class="math">y</span>: &nbsp;<span class="math">dy/dx = y ln a = a<sup>x</sup> ln a</span>.</p>
+          <p class="deriv-line deriv-line--rule"><strong>Rule:</strong> &nbsp;<span class="math">d/dx (a<sup>x</sup>) = (ln a) · a<sup>x</sup></span>.</p>
+        </div>
+        <p class="deriv-note">So every exponential <span class="math">a<sup>x</sup></span> is “scaled” by the constant <span class="math">ln a</span>. That constant is the <em>instantaneous relative growth rate</em> at <span class="math">x = 0</span>, because <span class="math">(a<sup>x</sup>)′</span> at 0 is <span class="math">ln a</span>.</p>
+
+        <h4>2. <span class="math">y = 2<sup>x</sup></span></h4>
+        <div class="deriv-block">
+          <p class="deriv-line">Set <span class="math">a = 2</span> in the rule: &nbsp;<span class="math">d/dx (2<sup>x</sup>) = (ln 2) · 2<sup>x</sup></span>.</p>
+          <p class="deriv-line">Numerically <span class="math">ln 2 ≈ 0.693</span>, which is <strong>less than 1</strong>.</p>
+          <p class="deriv-line">So at every <span class="math">x</span>, the derivative is the function <span class="math">2<sup>x</sup></span> multiplied by about <span class="math">0.693</span> — a <strong>shorter</strong> graph than <span class="math">2<sup>x</sup></span> on the same axes (the cyan derivative lies <strong>below</strong> the blue curve).</p>
+        </div>
+
+        <h4>3. <span class="math">y = 3<sup>x</sup></span></h4>
+        <div class="deriv-block">
+          <p class="deriv-line">Set <span class="math">a = 3</span>: &nbsp;<span class="math">d/dx (3<sup>x</sup>) = (ln 3) · 3<sup>x</sup></span>.</p>
+          <p class="deriv-line">Numerically <span class="math">ln 3 ≈ 1.099</span>, which is <strong>greater than 1</strong>.</p>
+          <p class="deriv-line">So the derivative is <span class="math">3<sup>x</sup></span> <strong>stretched</strong> vertically — the yellow derivative sits <strong>above</strong> the gold <span class="math">3<sup>x</sup></span> curve.</p>
+        </div>
+
+        <h4>4. <span class="math">y = e<sup>x</sup></span></h4>
+        <div class="deriv-block">
+          <p class="deriv-line">Again start from <span class="math">y = e<sup>x</sup></span>.</p>
+          <p class="deriv-line"><span class="math">ln y = ln(e<sup>x</sup>) = x ln e</span>.</p>
+          <p class="deriv-line">By definition of <span class="math">e</span>, <span class="math">ln e = 1</span>, so <span class="math">ln y = x</span>.</p>
+          <p class="deriv-line">Differentiate: <span class="math">(1/y) · dy/dx = 1</span> &nbsp;⇒&nbsp; <span class="math">dy/dx = y = e<sup>x</sup></span>.</p>
+          <p class="deriv-line deriv-line--rule"><strong>So</strong> &nbsp;<span class="math">d/dx (e<sup>x</sup>) = e<sup>x</sup></span> — the function and its derivative are the same. Equivalently, <span class="math">ln e = 1</span> is exactly the condition <span class="math">ln a = 1</span>, i.e. <span class="math">a = e</span>, in the general formula.</p>
+        </div>
+
+        <h4>5. Same idea from the limit definition (optional)</h4>
+        <div class="deriv-block">
+          <p class="deriv-line"><span class="math">d/dx (a<sup>x</sup>) = lim<sub>h→0</sub> (a<sup>x+h</sup> − a<sup>x</sup>) / h = a<sup>x</sup> · lim<sub>h→0</sub> (a<sup>h</sup> − 1) / h</span>.</p>
+          <p class="deriv-note" style="margin-top:0.5rem">The limit <span class="math">lim<sub>h→0</sub> (a<sup>h</sup> − 1) / h</span> is <em>defined</em> to be <span class="math">ln a</span> (natural log). That is the same factor <span class="math">ln a</span> as above, so the graph story and the algebra match.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="sibling-link">
+      This graph extends the interactive demo in
+      <a href="../ExponentialFunctions/index.html"><strong>Maths / ExponentialFunctions</strong></a>, where the help note spells out the same idea: <span class="math">2<sup>x</sup></span> derivative below, <span class="math">3<sup>x</sup></span> above, and <span class="math">e<sup>x</sup></span> the unique base where function and derivative coincide.
+    </p>
+
+    <h2>Complex numbers: <span class="math">e<sup>iθ</sup> = cos θ + i sin θ</span></h2>
+    <p>
+      Euler’s formula identifies a point on the unit circle with a complex exponential. For real <span class="math">θ</span>,
+    </p>
+    <p class="callout">
+      <span class="math">e<sup>iθ</sup> = cos θ + i sin θ</span>.
+    </p>
+    <p>
+      So <span class="math">z = e<sup>iπ</sup> = cos π + i sin π = −1</span> — the famous <span class="math">e<sup>iπ</sup> + 1 = 0</span> linking <span class="math">e</span>, <span class="math">i</span>, <span class="math">π</span>, 1 and 0. More generally, <span class="math">R e<sup>iθ</sup></span> has real part <span class="math">R cos θ</span> and imaginary part <span class="math">R sin θ</span> (your <span class="math">z = R cos π + i R sin π = −R</span>).
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Animation: <span class="math">e<sup>iθ</sup></span> on the unit circle</h3>
+      <div class="graph-wrap" style="max-width:400px;margin-left:auto;margin-right:auto;aspect-ratio:1/1;min-height:280px">
+        <canvas id="plotEuler" class="plot" aria-label="Unit circle and e to the i theta"></canvas>
+      </div>
+      <div class="controls-row euler-controls">
+        <label><input type="checkbox" id="eulerPlay" checked /> Animate <span class="math">θ</span></label>
+        <button type="button" class="btn-step" id="eulerStep" title="Increase θ by π/2 (90°). From any axis, moves to the next axis.">Step +90°</button>
+        <button type="button" class="btn-step btn-step--muted" id="eulerSnap" title="Set θ to the nearest multiple of π/2 (real or imaginary axis)">Snap to axis</button>
+        <span class="slider-readout" id="eulerReadout"></span>
+      </div>
+      <p class="figure-label">Blue = cos <span class="math">θ</span>, pink = sin <span class="math">θ</span>; the dot is <span class="math">e<sup>iθ</sup></span>. Uncheck <strong>Animate</strong> to freeze, then <strong>Step +90°</strong> to walk the axes (0, <span class="math">π/2</span>, <span class="math">π</span>, …). <strong>Snap to axis</strong> aligns to the closest axis from wherever you paused.</p>
+    </div>
+
+    <h2>Why natural logs use base <span class="math">e</span></h2>
+    <p>
+      The logarithm <span class="math">ln(x)</span> is the inverse of <span class="math">e<sup>x</sup></span>. Because <span class="math">d/dx (e<sup>x</sup>) = e<sup>x</sup></span>, the slope of <span class="math">ln(x)</span> at <span class="math">x</span> is beautifully simple: <span class="math">d/dx ln(x) = 1/x</span>. Integrals like <span class="math">∫(1/x)dx = ln|x| + C</span> emerge naturally. Change of base is always possible (<span class="math">log<sub>a</sub> x = ln x / ln a</span>), but base <span class="math">e</span> is the one that aligns growth rates, slopes, and integrals with the least extra clutter — hence “natural”.
+    </p>
+
+    <h2>A few more appearances</h2>
+    <ul>
+      <li><strong>Exponential decay:</strong> <span class="math">N(t) = N₀ e<sup>−kt</sup></span> for radioactive decay and many relaxation processes.</li>
+      <li><strong>Normal distribution:</strong> the bell curve’s formula contains <span class="math">e<sup>−x²</sup></span>; probabilities integrate to 1 in a way that leans on <span class="math">e</span>.</li>
+      <li><strong>Compound growth:</strong> any process whose <em>instantaneous</em> rate is proportional to the amount present leads to <span class="math">e</span>.</li>
+    </ul>
+
+    <footer>
+      Educational note for <strong>Maths / Exponential E</strong>. Limit definition uses <span class="math">n → ∞</span>; compound-interest story uses many small periods (large <span class="math">n</span>). Apple home-screen icon: <code>apple-touch-icon.png</code> in this folder.
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var eTrue = Math.E;
+      var slider = document.getElementById("nSlider");
+      var nReadout = document.getElementById("nReadout");
+      var limitReadout = document.getElementById("limitReadout");
+      function fmt(x, d) {
+        if (!Number.isFinite(x)) return "—";
+        return x.toFixed(d);
+      }
+      function updateLimit() {
+        var n = Math.max(1, parseInt(slider.value, 10) || 1);
+        nReadout.textContent = String(n);
+        var val = Math.pow(1 + 1 / n, n);
+        var err = Math.abs(val - eTrue);
+        limitReadout.innerHTML =
+          "<span class='math'>(1+1/" + n + ")<sup>" + n + "</sup></span> ≈ <strong>" +
+          fmt(val, 14) +
+          "</strong> &nbsp;|&nbsp; error vs <span class='math'>e</span>: <strong>" +
+          fmt(err, 16) +
+          "</strong>";
+      }
+      slider.addEventListener("input", updateLimit);
+      updateLimit();
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var LN2 = Math.LN2;
+      var LN3 = Math.log(3);
+      var series = [
+        { id: "s2", labelHtml: "2<sup>x</sup>", color: "rgb(56, 189, 248)", alpha: 1, z: 1, fn: function (x) { return Math.pow(2, x); } },
+        { id: "d2", labelHtml: "d/dx (2<sup>x</sup>)", color: "rgb(132, 228, 255)", alpha: 1, z: 0, fn: function (x) { return LN2 * Math.pow(2, x); } },
+        { id: "s3", labelHtml: "3<sup>x</sup>", color: "rgb(251, 191, 36)", alpha: 0.72, z: 2, fn: function (x) { return Math.pow(3, x); } },
+        { id: "d3", labelHtml: "d/dx (3<sup>x</sup>)", color: "rgb(255, 224, 102)", alpha: 0.72, z: 3, fn: function (x) { return LN3 * Math.pow(3, x); } },
+        { id: "se", labelHtml: "e<sup>x</sup>", color: "rgb(52, 211, 153)", alpha: 0.48, z: 4, fn: function (x) { return Math.exp(x); } },
+        { id: "de", labelHtml: "d/dx (e<sup>x</sup>)", color: "rgb(130, 245, 198)", alpha: 0.48, z: 5, fn: function (x) { return Math.exp(x); } },
+      ];
+      var canvas = document.getElementById("plotExp");
+      var ctx = canvas.getContext("2d");
+      var controls = document.getElementById("expControls");
+      var state = {};
+      series.forEach(function (s) { state[s.id] = false; });
+
+      var pairs = [[series[0], series[1]], [series[2], series[3]], [series[4], series[5]]];
+      pairs.forEach(function (pair) {
+        pair.forEach(function (s) {
+          var lab = document.createElement("label");
+          var cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = false;
+          cb.dataset.id = s.id;
+          var sw = document.createElement("span");
+          sw.className = "swatch";
+          sw.style.background = s.color;
+          sw.style.opacity = String(s.alpha);
+          lab.appendChild(cb);
+          lab.appendChild(sw);
+          var cap = document.createElement("span");
+          cap.innerHTML = s.labelHtml;
+          lab.appendChild(cap);
+          controls.appendChild(lab);
+          cb.addEventListener("change", function () {
+            state[s.id] = cb.checked;
+            draw();
+          });
+        });
+      });
+
+      var xMin = -2;
+      var xMax = 2.5;
+      var padding = { l: 52, r: 18, t: 18, b: 42 };
+
+      function computeFixedYMax() {
+        var m = 0;
+        for (var xi = 0; xi <= 400; xi++) {
+          var x = xMin + (xi / 400) * (xMax - xMin);
+          for (var j = 0; j < series.length; j++) {
+            var y = series[j].fn(x);
+            if (Number.isFinite(y) && y > m) m = y;
+          }
+        }
+        return Math.min(Math.max(m * 1.06, 1), 80);
+      }
+      var fixedYMax = computeFixedYMax();
+
+      function resize() {
+        var wrap = canvas.parentElement;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var w = wrap.clientWidth;
+        var h = wrap.clientHeight;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        canvas.style.width = w + "px";
+        canvas.style.height = h + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        draw();
+      }
+
+      function xToPx(x, plotW) {
+        return padding.l + ((x - xMin) / (xMax - xMin)) * plotW;
+      }
+      function yToPx(y, yMax, plotH) {
+        return padding.t + (1 - y / yMax) * plotH;
+      }
+
+      function draw() {
+        var w = canvas.clientWidth;
+        var h = canvas.clientHeight;
+        var plotW = w - padding.l - padding.r;
+        var plotH = h - padding.t - padding.b;
+        var yMax = fixedYMax;
+
+        ctx.fillStyle = "#070b14";
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = "rgba(148, 163, 184, 0.25)";
+        ctx.lineWidth = 1;
+        ctx.font = "11px system-ui, sans-serif";
+        ctx.fillStyle = "#64748b";
+
+        [-2, -1, 0, 1, 2].forEach(function (xv) {
+          var px = xToPx(xv, plotW);
+          ctx.beginPath();
+          ctx.moveTo(px, padding.t);
+          ctx.lineTo(px, padding.t + plotH);
+          ctx.stroke();
+          ctx.fillText(String(xv), px - 4, padding.t + plotH + 22);
+        });
+
+        var yStep = yMax <= 6 ? 1 : yMax <= 15 ? 2 : 5;
+        for (var yv = 0; yv <= yMax; yv += yStep) {
+          var py = yToPx(yv, yMax, plotH);
+          ctx.beginPath();
+          ctx.moveTo(padding.l, py);
+          ctx.lineTo(padding.l + plotW, py);
+          ctx.stroke();
+          ctx.fillText(String(Math.round(yv * 10) / 10), 6, py + 4);
+        }
+
+        ctx.strokeStyle = "rgba(248, 250, 252, 0.5)";
+        ctx.lineWidth = 1.5;
+        var y0 = yToPx(0, yMax, plotH);
+        var x0 = xToPx(0, plotW);
+        ctx.beginPath();
+        ctx.moveTo(padding.l, y0);
+        ctx.lineTo(padding.l + plotW, y0);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x0, padding.t);
+        ctx.lineTo(x0, padding.t + plotH);
+        ctx.stroke();
+
+        ctx.lineWidth = 2.25;
+        var steps = 400;
+        var toDraw = series
+          .filter(function (s) { return state[s.id]; })
+          .sort(function (a, b) { return a.z - b.z; });
+        toDraw.forEach(function (s) {
+          ctx.beginPath();
+          var started = false;
+          for (var i = 0; i <= steps; i++) {
+            var x = xMin + (i / steps) * (xMax - xMin);
+            var y = s.fn(x);
+            if (!Number.isFinite(y) || y < -0.01 || y > yMax * 1.02) {
+              started = false;
+              continue;
+            }
+            var px = xToPx(x, plotW);
+            var py = yToPx(Math.max(0, y), yMax, plotH);
+            if (!started) {
+              ctx.moveTo(px, py);
+              started = true;
+            } else {
+              ctx.lineTo(px, py);
+            }
+          }
+          var rgb = s.color.match(/\d+/g).map(Number);
+          ctx.strokeStyle = "rgba(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + "," + s.alpha + ")";
+          ctx.stroke();
+        });
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.textAlign = "center";
+        ctx.fillText("x", padding.l + plotW / 2, h - 8);
+        ctx.save();
+        ctx.translate(20, padding.t + plotH / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("y", 0, 0);
+        ctx.restore();
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("plotEuler");
+      var ctx = canvas.getContext("2d");
+      var playCb = document.getElementById("eulerPlay");
+      var stepBtn = document.getElementById("eulerStep");
+      var snapBtn = document.getElementById("eulerSnap");
+      var readout = document.getElementById("eulerReadout");
+      var theta = 0;
+      var last = null;
+      var quarter = Math.PI / 2;
+
+      function snapThetaToNearestAxis() {
+        theta = Math.round(theta / quarter) * quarter;
+      }
+
+      if (stepBtn) {
+        stepBtn.addEventListener("click", function () {
+          playCb.checked = false;
+          theta += quarter;
+        });
+      }
+      if (snapBtn) {
+        snapBtn.addEventListener("click", function () {
+          playCb.checked = false;
+          snapThetaToNearestAxis();
+        });
+      }
+
+      function resize() {
+        var wrap = canvas.parentElement;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var s = Math.min(wrap.clientWidth, wrap.clientHeight);
+        canvas.width = Math.round(s * dpr);
+        canvas.height = Math.round(s * dpr);
+        canvas.style.width = s + "px";
+        canvas.style.height = s + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function draw(ts) {
+        if (last == null) last = ts;
+        if (playCb.checked) {
+          theta += ((ts - last) / 1000) * 0.7;
+        }
+        last = ts;
+        if (theta > Math.PI * 4) theta -= Math.PI * 4;
+
+        var w = canvas.clientWidth;
+        var h = canvas.clientHeight;
+        var cx = w / 2;
+        var cy = h / 2;
+        var R = Math.min(w, h) * 0.36;
+
+        ctx.fillStyle = "#070b14";
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = "rgba(148, 163, 184, 0.35)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(248, 250, 252, 0.25)";
+        ctx.beginPath();
+        ctx.moveTo(cx - R - 8, cy);
+        ctx.lineTo(cx + R + 8, cy);
+        ctx.moveTo(cx, cy - R - 8);
+        ctx.lineTo(cx, cy + R + 8);
+        ctx.stroke();
+
+        var th = theta % (Math.PI * 2);
+        var px = cx + R * Math.cos(th);
+        var py = cy - R * Math.sin(th);
+
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.85)";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.5)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, -th, 0, true);
+        ctx.stroke();
+
+        var cosv = Math.cos(th);
+        var sinv = Math.sin(th);
+        ctx.strokeStyle = "rgba(125, 211, 252, 0.9)";
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(px, cy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.strokeStyle = "rgba(244, 114, 182, 0.9)";
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(px, cy);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = "#f472b6";
+        ctx.beginPath();
+        ctx.arc(px, py, 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "12px system-ui, sans-serif";
+        ctx.textAlign = "left";
+        ctx.fillText("cos θ = " + cosv.toFixed(3), 10, 22);
+        ctx.fillText("sin θ = " + sinv.toFixed(3), 10, 40);
+        readout.textContent = "θ = " + th.toFixed(3) + " rad";
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+      requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>
