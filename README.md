@@ -2,7 +2,7 @@
 
 This folder contains a **single static web page**, `index.html`, that explains the mathematical constant **e** and why it is so important in growth, logarithms, calculus, and complex numbers.
 
-The page is presented as a **CJF Hal AI** branded educational note with interactive graphics, a browser favicon, and an **Apple touch icon** for iPhone and iPad home-screen use.
+The page is presented as a **Hal AI by CJF** branded educational note with interactive graphics, a browser favicon, and an **Apple touch icon** for iPhone and iPad home-screen use.
 
 ## What the page covers
 
@@ -35,7 +35,7 @@ Open `index.html` in any modern web browser, or publish the folder on **GitHub P
 |------|---------|
 | `index.html` | Main educational page about **e** |
 | `README.md` | Project summary and usage notes |
-| `header-logo.svg` | CJF Hal AI header logo used on the page |
+| `header-logo.svg` | Official Hal AI by CJF header logo used on the page |
 | `favicon.svg` | Browser tab icon |
 | `apple-touch-icon.png` | **180 × 180** Apple home-screen icon |
 | `build_apple_icon.py` | Small helper script used to generate the Apple icon |
